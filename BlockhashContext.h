@@ -1,14 +1,8 @@
-/*
- * BlockhashContext.h
- *
- *  Created on: Jun 14, 2016
- *      Author: russ
- */
-
 #ifndef BLOCKHASHCONTEXT_H_
 #define BLOCKHASHCONTEXT_H_
 
 #include "FuzzyConstants.h"
+#include <vector>
 
 namespace FuzzyPP {
 class BlockhashContext {
@@ -18,7 +12,7 @@ class BlockhashContext {
     public:
         unsigned int H;
         unsigned int HalfH;
-        unsigned char *Digest;
+        std::vector<unsigned char> Digest;
         unsigned char HalfDigest;
         unsigned int DLen;
 
@@ -26,6 +20,6 @@ class BlockhashContext {
         static unsigned int Hash(unsigned char c, unsigned int h);
         void Reset(bool init = false);
         BlockhashContext();
-	};
+    };
 }
 #endif /* BLOCKHASHCONTEXT_H_ */

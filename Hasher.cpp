@@ -1,23 +1,14 @@
-/*
- * Hasher.cpp
- *
- *  Created on: Jun 14, 2016
- *      Author: russ
- */
-
 #include "Hasher.h"
 
 namespace FuzzyPP {
     Hasher::Hasher()
     {
-        _roll = new Roll();
-        
-        //_bh = new BlockhashContext[FuzzyConstants::I().NumBlockhashes];
+        _roll = std::shared_ptr<Roll>(new Roll());
         _bh = std::vector<BlockhashContext>(FuzzyConstants::I().NumBlockhashes);
         
         for (int i = 0; i < FuzzyConstants::I().NumBlockhashes; i++)
             _bh[i].Reset(true);
-        //    _bh[i] = new BlockhashContext();
+            
         _bh[0].Reset(true);
     }
 
@@ -42,11 +33,11 @@ namespace FuzzyPP {
     
     std::string Hasher::Digest(FuzzyHashMode::Mode flags)
     {
-        auto result = new unsigned char[FuzzyConstants::I().MaxResultLength];
+        std::vector<unsigned char> result(FuzzyConstants::I().MaxResultLength);
         auto pos = 0;
 
         unsigned int bi = _bhstart;
-        unsigned int h = _roll->Sum();
+        unsigned int h = _roll.get()->Sum();
         int i; // Exclude terminating '\0'.
 
         /* Initial blocksize guess. */
@@ -80,7 +71,7 @@ namespace FuzzyPP {
         i = (int)_bh[bi].DLen;
 
         if (flags & FuzzyHashMode::Mode::EliminateSequences)
-            i = MemcpyEliminateSequences(result, pos, _bh[bi].Digest, i);
+            i = MemcpyEliminateSequences(result.data(), pos, _bh[bi].Digest.data(), i);
         else
             memcpy(&result[pos], &_bh[bi].Digest[0], i);
 
@@ -111,7 +102,7 @@ namespace FuzzyPP {
             }
 
             if (flags & FuzzyHashMode::Mode::EliminateSequences)
-                i = MemcpyEliminateSequences(result, pos, _bh[bi].Digest, i);
+                i = MemcpyEliminateSequences(result.data(), pos, _bh[bi].Digest.data(), i);
             else {
                 memcpy(&result[pos], &_bh[bi].Digest[0], i);
             }
@@ -140,7 +131,7 @@ namespace FuzzyPP {
             result[pos++] = FuzzyConstants::I().Base64[_bh[bi].H % 64];
         }
         
-        return std::string((char*)result);
+        return std::string((char*)result.data());
     }
     
     void Hasher::TryForkBlockhash()
@@ -183,8 +174,8 @@ namespace FuzzyPP {
         /* At each character we update the rolling hash and the normal hashes.
          * When the rolling hash hits a reset value then we emit a normal hash
          * as a element of the signature and reset the normal hash. */
-        _roll->Hash(c);
-        h = _roll->Sum();
+        _roll.get()->Hash(c);
+        h = _roll.get()->Sum();
 
         for (i = _bhstart; i < _bhend; ++i)
             _bh[i].Hash(c);

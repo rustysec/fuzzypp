@@ -1,19 +1,12 @@
-/*
- * Roll.h
- *
- *  Created on: Jun 14, 2016
- *      Author: russ
- */
-
 #ifndef ROLL_H_
 #define ROLL_H_
 
 #include "FuzzyConstants.h"
+#include <vector>
 
 namespace FuzzyPP {
     class Roll {
-
-        unsigned char *_window = new unsigned char[FuzzyConstants::I().RollingWindow];
+        std::vector<unsigned char> _window = std::vector<unsigned char>(FuzzyConstants::I().RollingWindow);
         unsigned int _h1;
         unsigned int _h2;
         unsigned int _h3;

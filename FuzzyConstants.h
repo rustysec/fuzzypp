@@ -1,14 +1,8 @@
-/*
- * FuzzyConstants.h
- *
- *  Created on: Jun 14, 2016
- *      Author: russ
- */
-
 #ifndef FUZZYCONSTANTS_H_
 #define FUZZYCONSTANTS_H_
 
 #include <string>
+#include <vector>
 #include <stdio.h>
 
 namespace FuzzyPP {
@@ -22,7 +16,7 @@ namespace FuzzyPP {
         const int NumBlockhashes = 31;
         const int SpamSumLength = 64;
         const int MaxResultLength = 2 * SpamSumLength + 20;
-        unsigned char *Base64;
+        std::vector<unsigned char> Base64;
 
         // Implement this as a singleton
         static FuzzyConstants& I();

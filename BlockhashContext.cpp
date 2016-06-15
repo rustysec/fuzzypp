@@ -1,15 +1,8 @@
-/*
- * BlockhashContext.cpp
- *
- *  Created on: Jun 14, 2016
- *      Author: russ
- */
-
 #include "BlockhashContext.h"
 
 namespace FuzzyPP {
     BlockhashContext::BlockhashContext() {
-        Digest = new unsigned char[FuzzyConstants::I().SpamSumLength];
+        Digest = std::vector<unsigned char>(FuzzyConstants::I().SpamSumLength);
     }
 
     void BlockhashContext::Hash(unsigned char c)

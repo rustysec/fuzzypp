@@ -1,10 +1,3 @@
-/*
- * Roll.cpp
- *
- *  Created on: Jun 14, 2016
- *      Author: russ
- */
-
 #include "Roll.h"
 
 namespace FuzzyPP {

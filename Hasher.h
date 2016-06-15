@@ -2,6 +2,7 @@
 #define HASHER_H_
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 #include <string.h>
@@ -14,10 +15,9 @@ namespace FuzzyPP {
     class Hasher {
         unsigned int _bhstart = 0;
         unsigned int _bhend = 1;
-        //BlockhashContext *_bh;
         std::vector<BlockhashContext> _bh;
         unsigned int _totalSize = 0;
-        Roll *_roll;
+        std::shared_ptr<Roll> _roll;
         
         static int MemcpyEliminateSequences(unsigned char *dst, int pos, unsigned char *src, int n);
 
