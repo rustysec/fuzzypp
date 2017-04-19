@@ -37,3 +37,4 @@ Release/
 fuzzypp.txt
 Makefile
 build/
+*.swp

@@ -8,7 +8,7 @@ namespace FuzzyPP {
     void BlockhashContext::Hash(unsigned char c)
     {
         H = Hash(c, H);
-        HalfH = Hash(c, H);
+        HalfH = Hash(c, HalfH);
     }
 
     unsigned int BlockhashContext::Hash(unsigned char c, unsigned int h)
